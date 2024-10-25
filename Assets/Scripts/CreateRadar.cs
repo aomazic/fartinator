@@ -9,15 +9,14 @@ public class CreateRadar : MonoBehaviour
     private int numOfHorizontal = 10;
 
     [Header("Radar lines properties")] [SerializeField]
-    private float radarLineWidth = 0.015f;
+    float radarLineWidth = 0.015f;
 
     [SerializeField] private float radarLineSpeed = 1.0f;
-
-
     [SerializeField] private GameObject linePrefab;
-    private GameObject radarLine;
-    private float viewportHeight;
 
+    private GameObject radarLine;
+
+    private float viewportHeight;
     private float viewportWidth;
 
     private void Start()
@@ -31,6 +30,7 @@ public class CreateRadar : MonoBehaviour
 
         viewportWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         viewportHeight = Camera.main.orthographicSize * 2;
+
         CreateGrid();
 
         radarLine = Instantiate(linePrefab, new Vector3(-viewportHeight / 2, 0, 0), Quaternion.identity);
