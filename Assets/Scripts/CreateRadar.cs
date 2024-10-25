@@ -2,37 +2,41 @@ using UnityEngine;
 
 public class CreateRadar : MonoBehaviour
 {
-    [Header("Number of vertical lines")]
-    [SerializeField]
+    [Header("Number of vertical lines")] [SerializeField]
     private int numOfVertical = 10;
-    
-    [Header("Number of horizontal lines")]
-    [SerializeField]
+
+    [Header("Number of horizontal lines")] [SerializeField]
     private int numOfHorizontal = 10;
 
-    [SerializeField]
-    private GameObject linePrefab;
+    [SerializeField] private GameObject linePrefab;
 
-    void Start()
+    private void Start()
     {
-        float viewportWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        float viewportHeight = Camera.main.orthographicSize * 2;
-
-        float verticalSpacing = viewportWidth / (numOfVertical + 1);
-        float horizontalSpacing = viewportHeight / (numOfHorizontal + 1);
-
-        for (int i = 1; i <= numOfVertical; i++)
+        if (!Camera.main)
         {
-            Vector3 position = new Vector3(-viewportWidth / 2 + i * verticalSpacing, 0, 0);
-            GameObject line = Instantiate(linePrefab, position, Quaternion.identity);
-            line.transform.localScale = new Vector3(1, viewportHeight, 1);
+            Debug.LogError(
+                "Main camera not found. Please ensure there is a camera tagged as 'MainCamera' in the scene.");
+            return;
         }
 
-        for (int i = 1; i <= numOfHorizontal; i++)
+        var viewportWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        var viewportHeight = Camera.main.orthographicSize * 2;
+
+        var verticalSpacing = viewportWidth / (numOfVertical + 1);
+        var horizontalSpacing = viewportHeight / (numOfHorizontal + 1);
+
+        for (var i = 0; i <= numOfVertical + 1; i++)
         {
-            Vector3 position = new Vector3(0, -viewportHeight / 2 + i * horizontalSpacing, 0);
-            GameObject line = Instantiate(linePrefab, position, Quaternion.Euler(0, 0, 90));
-            line.transform.localScale = new Vector3(1, viewportWidth, 1);
+            var position = new Vector3(-viewportWidth / 2 + i * verticalSpacing, 0, 0);
+            var line = Instantiate(linePrefab, position, Quaternion.identity);
+            line.transform.localScale = new Vector3(0.015f, viewportHeight, 1);
+        }
+
+        for (var i = 0; i <= numOfHorizontal + 1; i++)
+        {
+            var position = new Vector3(0, -viewportHeight / 2 + i * horizontalSpacing, 0);
+            var line = Instantiate(linePrefab, position, Quaternion.Euler(0, 0, 90));
+            line.transform.localScale = new Vector3(0.015f, viewportWidth, 1);
         }
     }
 }
