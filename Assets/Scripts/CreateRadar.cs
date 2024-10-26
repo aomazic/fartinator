@@ -75,7 +75,7 @@ public class CreateRadar : MonoBehaviour
 
         for (var i = 0; i <= numOfHorizontal + 1; i++)
         {
-            var position = new Vector3(0, yPos - lineHeight / 2 + i * horizontalSpacing, 0);
+            var position = new Vector3(0, yPos - lineHeight / 2 + i * horizontalSpacing, -1f);
             var line = Instantiate(linePrefab, position, Quaternion.Euler(0, 0, 90));
             line.transform.localScale = new Vector3(radarLineWidth, viewportWidth, 1);
         }
