@@ -9,15 +9,21 @@ public class CreateRadar : MonoBehaviour
     private int numOfHorizontal = 10;
 
     [Header("Radar lines properties")] [SerializeField]
-    float radarLineWidth = 0.015f;
+    private float radarLineWidth = 0.015f;
+
+    [Header("Ui references")] [SerializeField]
+    private RectTransform bottomPanel;
+
+    [SerializeField] private RectTransform topPanel;
 
     [SerializeField] private float radarLineSpeed = 1.0f;
     [SerializeField] private GameObject linePrefab;
+    private float lineHeight;
 
     private GameObject radarLine;
 
-    private float viewportHeight;
     private float viewportWidth;
+    private float yPos;
 
     private void Start()
     {
@@ -29,12 +35,19 @@ public class CreateRadar : MonoBehaviour
         }
 
         viewportWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        viewportHeight = Camera.main.orthographicSize * 2;
+
+        // Calculate the world height of the bottom and top panels
+        var bottomPanelHeight = bottomPanel.rect.height * bottomPanel.lossyScale.y;
+        var topPanelHeight = topPanel.rect.height * topPanel.lossyScale.y;
+
+        // Calculate the height of the radar lines
+        lineHeight = Camera.main.orthographicSize * 2 - bottomPanelHeight - topPanelHeight;
+        yPos = -Camera.main.orthographicSize + bottomPanelHeight + lineHeight / 2;
 
         CreateGrid();
 
-        radarLine = Instantiate(linePrefab, new Vector3(-viewportHeight / 2, 0, 0), Quaternion.identity);
-        radarLine.transform.localScale = new Vector3(radarLineWidth * 4, viewportHeight, 1);
+        radarLine = Instantiate(linePrefab, new Vector3(-viewportWidth / 2, yPos, 0), Quaternion.identity);
+        radarLine.transform.localScale = new Vector3(radarLineWidth * 4, lineHeight, 1);
     }
 
     private void Update()
@@ -44,25 +57,25 @@ public class CreateRadar : MonoBehaviour
         // Reset position if it goes out of bounds
         if (radarLine.transform.position.x > viewportWidth / 2)
         {
-            radarLine.transform.position = new Vector3(-viewportWidth / 2, 0, 0);
+            radarLine.transform.position = new Vector3(-viewportWidth / 2, yPos, 0);
         }
     }
 
     private void CreateGrid()
     {
         var verticalSpacing = viewportWidth / (numOfVertical + 1);
-        var horizontalSpacing = viewportHeight / (numOfHorizontal + 1);
+        var horizontalSpacing = lineHeight / (numOfHorizontal + 1);
 
         for (var i = 0; i <= numOfVertical + 1; i++)
         {
-            var position = new Vector3(-viewportWidth / 2 + i * verticalSpacing, 0, 0);
+            var position = new Vector3(-viewportWidth / 2 + i * verticalSpacing, yPos, 0);
             var line = Instantiate(linePrefab, position, Quaternion.identity);
-            line.transform.localScale = new Vector3(radarLineWidth, viewportHeight, 1);
+            line.transform.localScale = new Vector3(radarLineWidth, lineHeight, 1);
         }
 
         for (var i = 0; i <= numOfHorizontal + 1; i++)
         {
-            var position = new Vector3(0, -viewportHeight / 2 + i * horizontalSpacing, 0);
+            var position = new Vector3(0, yPos - lineHeight / 2 + i * horizontalSpacing, 0);
             var line = Instantiate(linePrefab, position, Quaternion.Euler(0, 0, 90));
             line.transform.localScale = new Vector3(radarLineWidth, viewportWidth, 1);
         }
