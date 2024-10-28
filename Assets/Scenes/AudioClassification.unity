@@ -1297,14 +1297,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numOfVertical: 5
   numOfHorizontal: 5
+  gridLinePrefab: {fileID: 4994730399361103209, guid: e02991b62aafed1479edd002eb0bbcb9,
+    type: 3}
   radarLineWidth: 0.015
   radarLineSpeed: 2
-  linePrefab: {fileID: 4994730399361103209, guid: e2c2af91911a3f6438d5fefd789f9ae5,
-    type: 3}
   bottomPanel: {fileID: 1839907474}
   topPanel: {fileID: 364442732}
+  radarLine: {fileID: 4994730399361103209, guid: e2c2af91911a3f6438d5fefd789f9ae5,
+    type: 3}
   lineHeight: 0
-  radarLine: {fileID: 0}
 --- !u!4 &827216248
 Transform:
   m_ObjectHideFlags: 0

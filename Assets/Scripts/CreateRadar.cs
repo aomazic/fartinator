@@ -9,17 +9,18 @@ public class CreateRadar : MonoBehaviour
     private int numOfHorizontal = 10;
 
     [Header("Radar lines properties")]
+    [SerializeField] private GameObject gridLinePrefab;
     [SerializeField] float radarLineWidth = 0.015f;
     [SerializeField] private float radarLineSpeed = 1.0f;
-    [SerializeField] private GameObject linePrefab;
 
     [Header("Ui references")] 
     [SerializeField] private RectTransform bottomPanel;
     [SerializeField] private RectTransform topPanel;
-
+    public GameObject radarLine;
+    
     public float lineHeight;
 
-    public GameObject radarLine;
+
 
     private float viewportWidth;
     private float yPos;
@@ -45,7 +46,7 @@ public class CreateRadar : MonoBehaviour
 
         CreateGrid();
 
-        radarLine = Instantiate(linePrefab, new Vector3(-viewportWidth / 2, yPos, 0), Quaternion.identity);
+        radarLine = Instantiate(radarLine, new Vector3(-viewportWidth / 2, yPos, 0), Quaternion.identity);
         radarLine.transform.localScale = new Vector3(radarLineWidth * 4, lineHeight, 1);
     }
 
@@ -68,14 +69,14 @@ public class CreateRadar : MonoBehaviour
         for (var i = 0; i <= numOfVertical + 1; i++)
         {
             var position = new Vector3(-viewportWidth / 2 + i * verticalSpacing, yPos, 0);
-            var line = Instantiate(linePrefab, position, Quaternion.identity);
+            var line = Instantiate(gridLinePrefab, position, Quaternion.identity);
             line.transform.localScale = new Vector3(radarLineWidth, lineHeight, 1);
         }
 
         for (var i = 0; i <= numOfHorizontal + 1; i++)
         {
             var position = new Vector3(0, yPos - lineHeight / 2 + i * horizontalSpacing, -1f);
-            var line = Instantiate(linePrefab, position, Quaternion.Euler(0, 0, 90));
+            var line = Instantiate(gridLinePrefab, position, Quaternion.Euler(0, 0, 90));
             line.transform.localScale = new Vector3(radarLineWidth, viewportWidth, 1);
         }
     }
