@@ -17,25 +17,17 @@ public sealed class AudioClassificationSample : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 5f)]
     private float runEachNSec = 0.2f;
-
-
-    [SerializeField]
-    [Range(1, 10)]
-    private int showTopKLabels = 3;
+    
 
     [SerializeField]
     private MicrophoneBuffer.Options microphoneOptions = new();
 
-    [Header("UI")]
-    [SerializeField]
-    private Text resultText = null;
-
+    [Header("References")]
+    [SerializeField] private RadarDetection radarDetection;
 
     private AudioClassification classification;
     private MicrophoneBuffer mic;
     private string[] labelNames;
-    private readonly Vector3[] rtCorners = new Vector3[4];
-    private readonly StringBuilder sb = new();
 
     private IEnumerator Start()
     {
@@ -61,18 +53,19 @@ public sealed class AudioClassificationSample : MonoBehaviour
     private void Run()
     {
         if (!mic.IsRecording) return;
-
         mic.GetLatestSamples(classification.Input);
         classification.Run();
 
-        sb.Clear();
-        sb.AppendLine($"Top {showTopKLabels}:");
-        var labels = classification.GetTopLabels(showTopKLabels);
-        for (int i = 0; i < labels.Length; i++)
+        var topLabels = classification.GetTopLabels(5);
+        
+        for (var i = 0; i < topLabels.Length; i++)
         {
-            sb.AppendLine($"{labelNames[labels[i].id]}: {labels[i].score * 100f:F1}%");
+            if (labelNames[topLabels[i].id].Equals("Fart\r"))
+            {
+                radarDetection.Detection(1f);
+            }
         }
-        resultText.text = sb.ToString();
+        
     }
 
 }

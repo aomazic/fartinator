@@ -8,19 +8,18 @@ public class CreateRadar : MonoBehaviour
     [Header("Number of horizontal lines")] [SerializeField]
     private int numOfHorizontal = 10;
 
-    [Header("Radar lines properties")] [SerializeField]
-    private float radarLineWidth = 0.015f;
-
-    [Header("Ui references")] [SerializeField]
-    private RectTransform bottomPanel;
-
-    [SerializeField] private RectTransform topPanel;
-
+    [Header("Radar lines properties")]
+    [SerializeField] float radarLineWidth = 0.015f;
     [SerializeField] private float radarLineSpeed = 1.0f;
     [SerializeField] private GameObject linePrefab;
+
+    [Header("Ui references")] 
+    [SerializeField] private RectTransform bottomPanel;
+    [SerializeField] private RectTransform topPanel;
+
     private float lineHeight;
 
-    private GameObject radarLine;
+    public GameObject radarLine;
 
     private float viewportWidth;
     private float yPos;
