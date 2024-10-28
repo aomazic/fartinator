@@ -54,15 +54,28 @@ public sealed class AudioClassificationSample : MonoBehaviour
     {
         if (!mic.IsRecording) return;
         mic.GetLatestSamples(classification.Input);
+        
+        var micInput = classification.Input;
+        var amplitude = 0f;
+        foreach (var input in micInput)
+        {
+            amplitude += math.abs(input);
+        }
+        amplitude /= micInput.Length;
+        
+        
         classification.Run();
 
         var topLabels = classification.GetTopLabels(5);
+        
+        
+        
         
         for (var i = 0; i < topLabels.Length; i++)
         {
             if (labelNames[topLabels[i].id].Equals("Fart\r"))
             {
-                radarDetection.Detection(1f);
+                radarDetection.Detection(amplitude);
             }
         }
         

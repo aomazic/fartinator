@@ -17,7 +17,7 @@ public class CreateRadar : MonoBehaviour
     [SerializeField] private RectTransform bottomPanel;
     [SerializeField] private RectTransform topPanel;
 
-    private float lineHeight;
+    public float lineHeight;
 
     public GameObject radarLine;
 
