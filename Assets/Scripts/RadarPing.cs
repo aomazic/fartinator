@@ -43,6 +43,7 @@ public class RadarPing : MonoBehaviour
     {
         if (other.gameObject.CompareTag("RadarLine"))
         {
+            radarDetection.OnPingDestroyed(this);
             Destroy(gameObject);
         }
     }
