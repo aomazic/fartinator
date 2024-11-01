@@ -27,20 +27,16 @@ namespace TensorFlowLite
         [Serializable]
         public class Options
         {
-            [Tooltip("Microphone device name; null to use default device")]
-            [MicrophoneName]
+            [Tooltip("Microphone device name; null to use default device")] [MicrophoneName]
             public string deviceName = null;
 
-            [Tooltip("Mic Frequency in Hz")]
-            public Frequency frequency = Frequency.Hz16000;
+            [Tooltip("Mic Frequency in Hz")] public Frequency frequency = Frequency.Hz16000;
 
-            [Tooltip("Max duration in seconds")]
-            [Min(1)]
+            [Tooltip("Max duration in seconds")] [Min(1)]
             public int maxDurationSec = 5;
         }
 
-        [Tooltip("Default options")]
-        [SerializeField]
+        [Tooltip("Default options")] [SerializeField]
         private Options defaultOptions = new();
 
         private string deviceName;
@@ -68,6 +64,12 @@ namespace TensorFlowLite
 
             // Find device name
             string[] availableDevices = Microphone.devices;
+            if (availableDevices.Length == 0)
+            {
+                Debug.LogError("No microphone device found");
+                yield break;
+            }
+
             deviceName = options.deviceName;
             if (string.IsNullOrEmpty(deviceName) || !availableDevices.Contains(deviceName))
             {
@@ -109,6 +111,7 @@ namespace TensorFlowLite
             {
                 throw new InvalidOperationException("Recording is not started");
             }
+
             if (samples.Length > clip.samples)
             {
                 throw new ArgumentException("samples.Length must be less than clip total samples");
@@ -138,6 +141,7 @@ namespace TensorFlowLite
             {
                 return;
             }
+
             int secondLength = position;
             Span<float> secondBuffer = samples.AsSpan(firstLength, secondLength);
             clip.GetData(secondBuffer, 0);
