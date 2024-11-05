@@ -1,0 +1,7 @@
+Dark Ambience by PatrickLieberkind -- https://freesound.org/s/244961/ -- License: Attribution 4.0
+
+"Radar Blip" by KynikossDragonn -- https://freesound.org/s/131708/ -- License: Attribution 3.0
+
+Beep warning by SamsterBirdies -- https://freesound.org/s/467882/ -- License: Creative Commons 0s
+
+TensorFlow Lite for Unity Samples - asus4 Koki Ibukuro -- https://github.com/asus4/tf-lite-unity-sample?tab=readme-ov-file#tensorflow-lite-for-unity-samples
